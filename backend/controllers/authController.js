@@ -33,15 +33,21 @@ export const signup = async (req, res,next) => {
             const hashedPassword = await bcrypt.hashSync(password, salt);
             
             const newUser = new User({fullname,username,email, password: hashedPassword });
-            // console.log(newUser)
+            console.log(newUser)
 
             if (newUser) {
                 generateTokenAndSetCookie(newUser._id, res);
                 await newUser.save();
             }
-            const err = new Error("Invalid User Data");
+            else {
+                const err = new Error("Invalid User Data");
                 err.statusCode = 400;
                  return next(err);
+            }
+            res.status(200).json({
+                name: newUser.fullname,
+                email:newUser.email,
+            })
             
         } catch (error) {
             res.status(500).json({ error: "Internal Server Error" });
@@ -49,15 +55,72 @@ export const signup = async (req, res,next) => {
 }
 
 
-export const login = async (req, res) => {
-    res.json({
-        message:"login",
-    })
-}
+export const login = async (req, res, next) => {
+    try {
+        const { username, password } = req.body;
+
+        // Check if both username and password are provided
+        if (!username || !password) {
+            return res.status(400).json({ error: "Username and password are required" });
+        }
+
+        const user = await User.findOne({ username });
+
+        // Check if the user exists
+        if (!user) {
+            return res.status(400).json({ error: "Invalid username or password" });
+        }
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+        // Check if the password is correct
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ error: "Invalid username or password" });
+        }
+
+        // Generate token and set cookie
+        generateTokenAndSetCookie(user._id, res);
+
+        // Respond with user details
+        res.status(200).json({
+            _id: user.id,
+            fullname: user.fullname,
+            username: user.username,
+            email: user.email,
+        });
+    } catch (error) {
+        // Log the error for debugging purposes (optional)
+        console.error(error);
+
+        // Respond with a generic error message
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 export const logout = async (req, res) => {
-    res.json({
-        message:"logout",
-    })
+    try {
+        res.cookie("jwt", "", { maxAge: 0 })
+        res.status(200).json({
+            message:"Logged out Succesfully!"
+        })
+    } catch (error) {
+        console.error(error);
+
+        // Respond with a generic error message
+        res.status(500).json({ error: "Internal Server Error" });
+   }
 }
 
+export const getMe = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id).select("-password");
+        res.status(200).json(user);
+    } catch {
+        console.error(error);
+
+        // Respond with a generic error message
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
