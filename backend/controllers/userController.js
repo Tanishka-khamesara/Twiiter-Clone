@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import Notification from "../models/notificationModel.js";
 import bcrypt from "bcryptjs";
+import {v2 as cloudinary} from "cloudinary"
 
 
 export const getUserProfile = async (req, res,next) => {
@@ -112,7 +113,7 @@ export const updateUserProfile = async (req, res) => {
     const userId = req.user._id;
 
     try {
-        const user = await User.findById(userId);
+        let user = await User.findById(userId);
         if (!user) {
             const err = new Error("User not Found!");
             err.statusCode(404);
@@ -139,8 +140,38 @@ export const updateUserProfile = async (req, res) => {
             //we have to generate a hash for a password again
 
             const salt = await bcrypt.genSaltSync(10);
-
+            user.password = await bcrypt.hashSync(newPassword, salt);
         }
+        if (profileImg) {
+            if (user.profileImg) {
+                //http://res.cloudinary.com/ghhfdhgd/image/upload/v1/jgFACHCVGSCGASGCHV.png
+
+                await cloudinary.uploader.destroy(user.profileImg.split("/").pop().split(".")[0]);
+            }
+            const uploadedResponse = cloudinary.uploader.upload(profileImg);
+            profileImg = uploadedResponse.secure_url;
+        }
+        if (coverImg) {
+            if (user.coverImg) {
+                //http://res.cloudinary.com/ghhfdhgd/image/upload/v1/jgFACHCVGSCGASGCHV.png
+
+                await cloudinary.uploader.destroy(user.coverImg.split("/").pop().split(".")[0]);
+            }
+            const uploadedResponse = cloudinary.uploader.upload(coverImg);
+            profileImg = uploadedResponse.secure_url;
+        }
+        user.fullname = fullname || user.fullname;
+        user.email = email || user.email;
+        user.username = username || user.username;
+        user.bio = bio || user.bio;
+        user.link = link || user.link;
+        user.profileImg = profileImg || user.profileImg;
+        user.coverImg = coverImg || user.coverImg;
+
+        user = await user.save();
+        user.password = null;
+        return res.status(200).json(user);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
