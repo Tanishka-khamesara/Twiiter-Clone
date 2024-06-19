@@ -33,7 +33,7 @@ export const signup = async (req, res,next) => {
             const hashedPassword = await bcrypt.hashSync(password, salt);
             
             const newUser = new User({fullname,username,email, password: hashedPassword });
-            console.log(newUser)
+            // console.log(newUser)
 
             if (newUser) {
                 generateTokenAndSetCookie(newUser._id, res);
