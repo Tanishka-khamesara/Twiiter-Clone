@@ -8,6 +8,7 @@ import { ErrorMiddleware } from "./Middlewares/ErrorMiddleware.js";
 import cookieParser from "cookie-parser";
 import { protectRoute } from "./Middlewares/protectRoute.js";
 import { v2 as cloudinary } from "cloudinary";
+import postRoutes from "./routes/postRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users",protectRoute, userRoutes);
+app.use("/api/posts", protectRoute, postRoutes);
 
 app.listen(Port, () =>{console.log(`server is up and running on port ${Port}`)
     connectMongodb()
