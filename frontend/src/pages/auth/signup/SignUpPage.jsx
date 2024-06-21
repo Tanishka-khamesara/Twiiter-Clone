@@ -32,11 +32,12 @@ const SignUpPage = () => {
 				}, {
 					headers: {
 						"content-type": "application/json",
-					}
+                    },
+                    withCredentials: true,
 				})
 
 				// if (!res.ok) throw new Error(res.message);
-				console.log(res.message);
+
 				const data = await res.data;
 				
 				if (data.error) throw new Error(data.error);
