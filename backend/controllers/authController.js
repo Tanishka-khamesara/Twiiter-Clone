@@ -9,12 +9,12 @@ export const signup = async (req, res,next) => {
 
         try {
             const { fullname, username, email, password } = req.body;
-    
-            if (!fullname || !username || !email || !password) {
-                const err = new Error("All fields are required");
-                err.statusCode = 400; // Bad Request
-                return next(err);
-            }
+            console.log(req.body)
+            // if (!fullname || !username || !email || !password) {
+            //     const err = new Error("All fields are required");
+            //     err.statusCode = 400; // Bad Request
+            //     return next(err);
+            // }
             const existingUser = await User.findOne({ username });
             if (existingUser) {
                 const err = new Error("UserName Already Taken");
@@ -38,16 +38,23 @@ export const signup = async (req, res,next) => {
             if (newUser) {
                 generateTokenAndSetCookie(newUser._id, res);
                 await newUser.save();
+                res.status(201).json({
+                    _id: newUser._id,
+				fullName: newUser.fullName,
+				username: newUser.username,
+				email: newUser.email,
+				followers: newUser.followers,
+				following: newUser.following,
+				profileImg: newUser.profileImg,
+				coverImg: newUser.coverImg,
+                })
             }
             else {
                 const err = new Error("Invalid User Data");
                 err.statusCode = 400;
                  return next(err);
             }
-            res.status(200).json({
-                name: newUser.fullname,
-                email:newUser.email,
-            })
+            
             
         } catch (error) {
             res.status(500).json({ error: "Internal Server Error" });

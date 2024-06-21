@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { protectRoute } from "./Middlewares/protectRoute.js";
 import { v2 as cloudinary } from "cloudinary";
 import postRoutes from "./routes/postRoutes.js";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -22,7 +23,8 @@ const app = express();
 const Port = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);

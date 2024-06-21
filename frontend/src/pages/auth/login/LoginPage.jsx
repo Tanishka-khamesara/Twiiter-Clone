@@ -5,11 +5,29 @@ import XSvg from "../../../components/svgs/X";
 
 import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginPage = () => {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
+	});
+
+	const { mutate, isPending, isError, error } = useMutation({
+		mutationFn: async ({ username, password }) => {
+			try {
+				const res = await fetch("http://localhost:8000/api/auth/login", {
+					method: "POST",
+					headers: {
+						"Content-Type":"application/json"
+					},
+					body:JSON.stringify({username,password}),
+				})
+			}
+			catch (error) {
+				throw new Error(error);
+			}
+		}
 	});
 
 	const handleSubmit = (e) => {
