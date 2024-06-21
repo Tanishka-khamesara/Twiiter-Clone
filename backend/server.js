@@ -1,6 +1,7 @@
 import express from "express";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import path from "path";
 import dotenv from "dotenv";
 import { connect } from "mongoose";
 import connectMongodb from "./db/connectMongodb.js";
@@ -21,6 +22,7 @@ cloudinary.config({
 
 const app = express();
 const Port = process.env.PORT || 5000;
+const __dirname=path.resolve()
 
 const corsOptions = {
     origin: 'http://localhost:3000', // Frontend URL
@@ -38,6 +40,20 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users",protectRoute, userRoutes);
 app.use("/api/posts", protectRoute, postRoutes);
+
+// if (process.env.NODE_ENV === "production") {
+// 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+// 	app.get("*", (req, res) => {
+// 		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+// 	});
+// }
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+})
 
 app.listen(Port, () =>{console.log(`server is up and running on port ${Port}`)
     connectMongodb()
