@@ -21,7 +21,7 @@ cloudinary.config({
 });
 
 const app = express();
-const Port = process.env.PORT || 5000;
+const Port = process.env.PORT ;
 // const __dirname=path.resolve()
 
 const corsOptions = {
