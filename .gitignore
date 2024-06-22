@@ -1,4 +1,4 @@
-.env
+
 
 # Logs
 logs
@@ -13,6 +13,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
 
 # Editor directories and files
 .vscode/*
