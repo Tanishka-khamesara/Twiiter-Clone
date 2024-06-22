@@ -25,7 +25,7 @@ const Port = process.env.PORT ;
 // const __dirname=path.resolve()
 
 const corsOptions = {
-    origin: ["https://twiiter-clone-sepia.vercel.app/"], // Frontend URL
+    origin: ["https://twiiter-clone-sepia.vercel.app/login"], // Frontend URL
     credentials: true, // Allow credentials (cookies) to be included
   };
   
