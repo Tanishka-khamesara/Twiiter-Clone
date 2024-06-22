@@ -1,8 +1,8 @@
 export const POSTS = [
 	{
 		_id: "1",
-		text: "Let's build a fullstack WhatsApp clone with NEXT.JS 14 😍",
-		img: "/posts/post1.png",
+		text: "Governor of Jharkhand Shri C.P. Radhkrishnan, met Prime Minister @narendramodi",
+		img: "/posts/postone.jpg",
 		user: {
 			username: "johndoe",
 			profileImg: "/avatars/boy1.png",

@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser";
 import { protectRoute } from "./Middlewares/protectRoute.js";
 import { v2 as cloudinary } from "cloudinary";
 import postRoutes from "./routes/postRoutes.js";
-import cors from "cors";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -22,20 +22,15 @@ cloudinary.config({
 
 const app = express();
 const Port = process.env.PORT || 5000;
-const __dirname = path.resolve();
-
-const allowedOrigins = [process.env.LOCAL_FRONTEND_URL, process.env.PRODUCTION_FRONTEND_URL];
+// const __dirname=path.resolve()
 
 const corsOptions = {
-    origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
-};
+    origin: 'http://localhost:3000', // Frontend URL
+    credentials: true, // Allow credentials (cookies) to be included
+  };
+  
+  
+  
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,20 +38,25 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/users", protectRoute, userRoutes);
+app.use("/api/users",protectRoute, userRoutes);
 app.use("/api/posts", protectRoute, postRoutes);
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// if (process.env.NODE_ENV === "production") {
+// 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-    });
-}
+// 	app.get("*", (req, res) => {
+// 		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+// 	});
+// }
 
-app.listen(Port, () => {
-    console.log(`server is up and running on port ${Port}`);
-    connectMongodb();
+// app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+// app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+// })
+
+app.listen(Port, () =>{console.log(`server is up and running on port ${Port}`)
+    connectMongodb()
 });
 
 app.use(ErrorMiddleware);
