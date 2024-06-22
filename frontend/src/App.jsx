@@ -17,7 +17,9 @@ function App() {
     queryFn: async () => {
       try {
         const res = await fetch("https://twiiter-clone-1-ylzj.onrender.com/api/auth/me", {
-          credentials: 'include',
+          // credentials: 'include',
+          method: "GET",
+          credentials:'include'
         });
 
         // Check for non-200 HTTP status codes
