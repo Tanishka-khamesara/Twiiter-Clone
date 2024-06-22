@@ -16,7 +16,7 @@ function App() {
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/auth/me", {
+        const res = await fetch("https://twiiter-clone-1-ylzj.onrender.com/api/auth/me", {
           method: "GET",
           credentials: 'include',
         });
