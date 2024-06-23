@@ -23,7 +23,7 @@ const app = express();
 const Port = process.env.PORT;
 
 const corsOptions = {
-    origin: 'https://twiiter-clone-sepia.vercel.app', // Allow this origin
+    origin: 'localhost://3000', // Allow this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
     credentials: true, // Allow credentials (cookies) to be included
