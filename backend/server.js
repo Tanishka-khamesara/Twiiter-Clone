@@ -23,7 +23,7 @@ const app = express();
 const Port = process.env.PORT;
 
 const corsOptions = {
-    origin: 'https://twiiter-clone-hclr.vercel.app', // Base URL of your frontend application
+    origin: 'https://twiiter-clone-hclr.vercel.app/login', // Base URL of your frontend application
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
