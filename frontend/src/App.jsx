@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import HomePage from "./pages/Home/HomePage";
 import LoginPage from "./pages/auth/login/LoginPage";
@@ -11,15 +12,13 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './components/common/LoadingSpinner';
 
 function App() {
-
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("https://twiiter-clone-1-ylzj.onrender.com/api/auth/me", {
-          // credentials: 'include',
+        const res = await fetch("http://localhost:10000/api/auth/me", {
           method: "GET",
-          credentials:'include'
+          credentials: 'include'
         });
 
         // Check for non-200 HTTP status codes
@@ -48,7 +47,7 @@ function App() {
 
   return (
     <div className='flex max-w-6xl mx-auto'>
-      {authUser &&<Sidebar />}
+      {authUser && <Sidebar />}
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
@@ -56,7 +55,7 @@ function App() {
         <Route path="/notifications" element={authUser ? <NotificationPage /> : <Navigate to="/login" />} />
         <Route path="/profile/:username" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
-      {authUser&&<RightPanel />}
+      {authUser && <RightPanel />}
       <Toaster />
     </div>
   );

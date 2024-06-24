@@ -27,7 +27,7 @@ const SignUpPage = () => {
 				// 	},
 				// 	body: JSON.stringify({ email, username, fullname, password }),
 				// });
-				const res = await axios.post("https://twiiter-clone-1-ylzj.onrender.com/api/auth/signup", {
+				const res = await axios.post("http://localhost:10000/api/auth/signup", {
 					email,username,password,fullname
 				}, {
 					headers: {

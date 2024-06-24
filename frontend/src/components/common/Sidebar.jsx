@@ -13,7 +13,7 @@ const Sidebar = () => {
 	const { mutate: logout } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch("https://twiiter-clone-1-ylzj.onrender.com/api/auth/logout", {
+				const res = await fetch("http://localhost:10000/api/auth/logout", {
 					method: "POST",
 					credentials: 'include',
 				});

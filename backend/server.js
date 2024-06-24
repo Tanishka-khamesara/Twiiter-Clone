@@ -23,14 +23,14 @@ const app = express();
 const Port = process.env.PORT;
 
 const corsOptions = {
-    origin: 'localhost://3000', // Allow this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
-    credentials: true, // Allow credentials (cookies) to be included
+    origin: 'http://localhost:3000', // Base URL of your frontend application
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 };
 
-app.use(cors(corsOptions)); // Apply CORS options before all routes
-app.options('*', cors(corsOptions)); // Handle preflight requests for all routes
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,12 +40,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", protectRoute, userRoutes);
 app.use("/api/posts", protectRoute, postRoutes);
 
+app.use(ErrorMiddleware);
+
 app.listen(Port, () => {
     console.log(`Server is up and running on port ${Port}`);
     connectMongodb();
 });
-
-app.use(ErrorMiddleware);
 
 // Static files and SPA fallback (for production)
 if (process.env.NODE_ENV === "production") {
