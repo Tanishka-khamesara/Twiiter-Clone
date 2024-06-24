@@ -17,6 +17,7 @@ const Sidebar = () => {
 					method: "POST",
 					credentials: 'include',
 				});
+				console.log(res);
 				const data = await res.json();
 
 				if (!res.ok) {
