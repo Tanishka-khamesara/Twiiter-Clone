@@ -26,6 +26,7 @@ const LoginPage = () => {
 					body: JSON.stringify({ username, password }),
 					credentials: 'include',
 				})
+				console.log(res);
 
 				const data = await res.json();
 				if (!res.ok) {
