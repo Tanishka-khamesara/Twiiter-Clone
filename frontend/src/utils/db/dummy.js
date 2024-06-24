@@ -2,7 +2,7 @@ export const POSTS = [
 	{
 		_id: "1",
 		text: "Governor of Jharkhand Shri C.P. Radhkrishnan, met Prime Minister @narendramodi",
-		img: "/posts/postone.jpg",
+		img: "/posts/post.png",
 		user: {
 			username: "johndoe",
 			profileImg: "/avatars/boy1.png",

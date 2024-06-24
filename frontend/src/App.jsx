@@ -25,6 +25,8 @@ function App() {
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.error || "Something went wrong");
+          // console.log("something went ");
+          // return
         }
 
         const data = await res.json();
