@@ -110,7 +110,14 @@ export const logout = async (req, res) => {
     try {
         console.log("before",res.cookie.jwt)
         // res.cookie("jwt", "", { expiresIn: new Date(Date.now()) })
-        res.clearCookie("jwt",{path: "/"});
+        // res.clearCookie("jwt",{path: "/"});
+        res.clearCookie("jwt", {
+            path: "/",
+
+            httpOnly: true,
+            sameSite: "none", // Important for cross-site cookie clearing (adjust if needed)
+            secure: true, // Set to true if using HTTPS
+        });
         console.log("after",res.cookie.jwt)
         res.status(200).json({
             message:"Logged out Succesfully!"
