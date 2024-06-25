@@ -18,7 +18,7 @@ const LoginPage = () => {
 	const { mutate:loginMutation, isPending, isError, error } = useMutation({
 		mutationFn: async ({ username, password }) => {
 			try {
-				const res = await fetch("http://localhost:10000/api/auth/login", {
+				const res = await fetch("https://twiiter-clone-3sne.onrender.com/api/auth/login", {
 					method: "POST",
 					headers: {
 						"Content-Type":"application/json"
