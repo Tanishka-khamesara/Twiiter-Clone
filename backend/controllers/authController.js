@@ -108,10 +108,10 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
     try {
-        console.log("before",res.cookie.jwt)
+        console.log("before",res.cookies.jwt)
         // res.cookie("jwt", "", { expiresIn: new Date(Date.now()) })
         res.clearCookie("jwt");
-        console.log("after",res.cookie.jwt)
+        console.log("after",res.cookies.jwt)
         res.status(200).json({
             message:"Logged out Succesfully!"
         })
