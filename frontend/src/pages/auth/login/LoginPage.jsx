@@ -10,8 +10,8 @@ import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
 
-	const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
-// console.log(apiUrl);
+// 	const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
+// // console.log(apiUrl);
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -21,7 +21,7 @@ const LoginPage = () => {
 	const { mutate:loginMutation, isPending, isError, error } = useMutation({
 		mutationFn: async ({ username, password }) => {
 			try {
-				const res = await fetch(`${apiUrl}/api/auth/login`, {
+				const res = await fetch(`https://twiiter-clone-3sne.onrender.com/api/auth/login`, {
 					method: "POST",
 					headers: {
 						"Content-Type":"application/json"
