@@ -114,7 +114,7 @@ export const logout = async (req, res) => {
     res.clearCookie("jwt", {
       path: "/",
       httpOnly: true,
-      sameSite: "none",
+      sameite: "none",
       secure: true,
     });
     // console.log("after", res.cookie.jwt);
