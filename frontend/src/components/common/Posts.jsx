@@ -9,11 +9,11 @@ const Posts = ({feedType}) => {
 	const getPostEndpoint = () => {
 		switch (feedType) {
 			case "forYou":
-				return "http://localhost:10000/api/posts/all";
+				return "https://twiiter-clone-3sne.onrender.com/api/posts/all";
 			case "following":
-				return "http://localhost:10000/api/posts/following";
+				return "https://twiiter-clone-3sne.onrender.com/api/posts/following";
 			default:
-				return "http://localhost:10000/api/posts/all";
+				return "https://twiiter-clone-3sne.onrender.com/api/posts/all";
 		}
 	};
 	const POST_ENDPOINT = getPostEndpoint();

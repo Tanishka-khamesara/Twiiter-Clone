@@ -17,7 +17,7 @@ const Post = ({ post }) => {
     mutationFn: async () => {
       try {
         const res = await fetch(
-          `http://localhost:10000/api/posts/${post._id}`,
+          `https://twiiter-clone-3sne.onrender.com/api/posts/${post._id}`,
           {
             method: "DELETE",
             headers: {

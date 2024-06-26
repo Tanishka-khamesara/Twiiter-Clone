@@ -17,7 +17,7 @@ const CreatePost = () => {
 	const { mutate: createPost, isPending,isError,error } = useMutation({
 		mutationFn: async ({text,img}) => {
 			try {
-				const res = await fetch("http://localhost:10000/api/posts/create", {
+				const res = await fetch("https://twiiter-clone-3sne.onrender.com/api/posts/create", {
 					method: "POST",
 					headers: {
 					  "Content-Type": "application/json",

@@ -7,7 +7,7 @@ const useFollow = () => {
 	const { mutate: follow, isPending } = useMutation({
 		mutationFn: async (userId) => {
 			try {
-				const res = await fetch(`http://localhost:10000/api/users/follow/${userId}`, {
+				const res = await fetch(`https://twiiter-clone-3sne.onrender.com/api/users/follow/${userId}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
