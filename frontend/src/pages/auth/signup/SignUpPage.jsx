@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdOutlineMail, MdPassword, MdDriveFileRenameOutline } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 
@@ -15,7 +15,10 @@ const SignUpPage = () => {
 		username: "",
 		fullname: "",
 		password: "",
-	});
+    });
+    const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
+
+    const queryClient = useQueryClient();
 
 	const { mutate, isError, isLoading, error } = useMutation({
 		mutationFn: async ({ email, username, password, fullname }) => {
@@ -27,7 +30,7 @@ const SignUpPage = () => {
 				// 	},
 				// 	body: JSON.stringify({ email, username, fullname, password }),
 				// });
-				const res = await axios.post("https://twiiter-clone-3sne.onrender.com/api/auth/signup", {
+				const res = await axios.post(`${apiUrl}/api/auth/signup`, {
 					email,username,password,fullname
 				}, {
 					headers: {
@@ -50,7 +53,8 @@ const SignUpPage = () => {
 			}
 		},
 		onSuccess: () => {
-			toast.success("Account Created Succesfully");
+            toast.success("Account Created Succesfully");
+            queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
 		
 	});

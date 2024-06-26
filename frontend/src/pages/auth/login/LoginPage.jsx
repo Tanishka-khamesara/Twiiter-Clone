@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import XSvg from "../../../components/svgs/X";
-
 import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast";
+
+
 
 const LoginPage = () => {
+
+	const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
+// console.log(apiUrl);
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -18,7 +21,7 @@ const LoginPage = () => {
 	const { mutate:loginMutation, isPending, isError, error } = useMutation({
 		mutationFn: async ({ username, password }) => {
 			try {
-				const res = await fetch("https://twiiter-clone-3sne.onrender.com/api/auth/login", {
+				const res = await fetch(`${apiUrl}/api/auth/login`, {
 					method: "POST",
 					headers: {
 						"Content-Type":"application/json"
@@ -39,7 +42,7 @@ const LoginPage = () => {
 			}
 		},
 		onSuccess: () => {
-			// toast.success("Login Succesfully!");
+			toast.success("Login Succesfully!");
 			// refetch the authUser
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		}

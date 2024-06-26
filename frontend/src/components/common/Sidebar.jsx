@@ -9,11 +9,12 @@ import { toast } from "react-hot-toast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Sidebar = () => {
+	const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
 	const queryClient = useQueryClient();
 	const { mutate: logout } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch("https://twiiter-clone-3sne.onrender.com/api/auth/logout", {
+				const res = await fetch(`${apiUrl}/api/auth/logout`, {
 					method: "POST",
 					credentials: 'include',
 				});

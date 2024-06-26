@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken"
 export const protectRoute = async (req, res, next) => {
     try {
         const token = req.cookies.jwt;
-        console.log("cookies_check", req.cookies);
-        console.log("token_check",token);
+        // console.log("cookies_check", req.cookies);
+        // console.log("token_check",token);
         if (!token) {
             const err = new Error("Unauthorized: No Token Provided");
             err.statusCode = 401;

@@ -12,11 +12,12 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './components/common/LoadingSpinner';
 
 function App() {
+  const apiUrl = import.meta.env.VITE_BACKEND_RENDER;
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("https://twiiter-clone-3sne.onrender.com/api/auth/me", {
+        const res = await fetch(`${apiUrl}/api/auth/me`, {
           method: "GET",
           credentials: 'include'
         });
