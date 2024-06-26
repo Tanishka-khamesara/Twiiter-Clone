@@ -1,5 +1,5 @@
 Twitter Clone Project
-hostedLink=> https://twiiter-clone-hclr.vercel.app/
+hostedLink=> https://twiiter-clone-hclr.vercel.app
 
 
 Project Description
