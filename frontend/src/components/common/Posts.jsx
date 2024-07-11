@@ -4,7 +4,7 @@ import { POSTS } from "../../utils/db/dummy";
 import {useQuery} from "@tanstack/react-query"
 import { useEffect } from "react";
 
-const Posts = ({feedType}) => {
+const Posts = ({feedType,username,userId}) => {
 
 	const getPostEndpoint = () => {
 		switch (feedType) {
@@ -12,6 +12,10 @@ const Posts = ({feedType}) => {
 				return "https://twiiter-clone-3sne.onrender.com/api/posts/all";
 			case "following":
 				return "https://twiiter-clone-3sne.onrender.com/api/posts/following";
+			case "posts":
+				return `https://twiiter-clone-3sne.onrender.com/api/posts/user/${username}`;
+			case "likes":
+				return `https://twiiter-clone-3sne.onrender.com/api/posts/likes/${userId}`;
 			default:
 				return "https://twiiter-clone-3sne.onrender.com/api/posts/all";
 		}
@@ -32,7 +36,7 @@ const Posts = ({feedType}) => {
 					credentials: 'include',
 				});
 				const data = await res.json();
-				console.log("__->     ", data)
+				// console.log("__->     ", data)
 
 
 				if (!res.ok) {
@@ -48,7 +52,7 @@ const Posts = ({feedType}) => {
 
 	useEffect(() => {
 		refetch();
-	}, [feedType, refetch]);
+	}, [feedType, refetch,username]);
 
 	return (
 		<>

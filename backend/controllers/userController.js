@@ -67,13 +67,13 @@ export const followUnfollowUser = async (req, res, next) => {
             //unfollow the user
             await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
             await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
-            const newNotification = new Notification({
-                type: 'unfollow',
-                from: req.user._id,
-                to:userToModify._id
-            })
+            // const newNotification = new Notification({
+            //     type: 'unfollow',
+            //     from: req.user._id,
+            //     to:userToModify._id
+            // })
 
-            await newNotification.save();
+            // await newNotification.save();
             //todo return the id of the user in response
             res.status(200).json({
                 message:"User Unfollowed Succesfully",
@@ -106,7 +106,7 @@ export const followUnfollowUser = async (req, res, next) => {
     }
 }
 
-export const updateUserProfile = async (req, res) => {
+export const updateUserProfile = async (req, res, next) => {
     const { fullname, email, username, currentPassword, newPassword, bio, link } = req.body;
     let { profileImg, coverImg } = req.body;
 
@@ -116,49 +116,44 @@ export const updateUserProfile = async (req, res) => {
         let user = await User.findById(userId);
         if (!user) {
             const err = new Error("User not Found!");
-            err.statusCode(404);
+            err.statusCode = 404;
             return next(err);
         }
         if (!newPassword && currentPassword || !currentPassword && newPassword) {
             const err = new Error("current and new Password Required!");
-            err.statusCode(400);
+            err.statusCode = 400;
             return next(err);
         }
         if (currentPassword && newPassword) {
             const isMatch = await bcrypt.compare(currentPassword, user.password);
             if (!isMatch) {
                 const err = new Error("current password is incorrect");
-                err.statusCode(400);
+                err.statusCode = 400;
                 return next(err);
             }
             if (newPassword.length < 6) {
-                const err = new Error("Password must be atleast 6 Characters long");
-                err.statusCode(400);
+                const err = new Error("Password must be at least 6 Characters long");
+                err.statusCode = 400;
                 return next(err);
             }
 
-            //we have to generate a hash for a password again
-
-            const salt = await bcrypt.genSaltSync(10);
-            user.password = await bcrypt.hashSync(newPassword, salt);
+            // Generate a hash for the new password
+            const salt = bcrypt.genSaltSync(10);
+            user.password = bcrypt.hashSync(newPassword, salt);
         }
         if (profileImg) {
             if (user.profileImg) {
-                //http://res.cloudinary.com/ghhfdhgd/image/upload/v1/jgFACHCVGSCGASGCHV.png
-
                 await cloudinary.uploader.destroy(user.profileImg.split("/").pop().split(".")[0]);
             }
-            const uploadedResponse = cloudinary.uploader.upload(profileImg);
+            const uploadedResponse = await cloudinary.uploader.upload(profileImg);
             profileImg = uploadedResponse.secure_url;
         }
         if (coverImg) {
             if (user.coverImg) {
-                //http://res.cloudinary.com/ghhfdhgd/image/upload/v1/jgFACHCVGSCGASGCHV.png
-
                 await cloudinary.uploader.destroy(user.coverImg.split("/").pop().split(".")[0]);
             }
-            const uploadedResponse = cloudinary.uploader.upload(coverImg);
-            profileImg = uploadedResponse.secure_url;
+            const uploadedResponse = await cloudinary.uploader.upload(coverImg);
+            coverImg = uploadedResponse.secure_url;
         }
         user.fullname = fullname || user.fullname;
         user.email = email || user.email;

@@ -42,6 +42,7 @@ const Sidebar = () => {
 	// };
 
 	const { data } = useQuery({ queryKey: ["authUser"] });
+	// console.log(data);
 
 	return (
 		<div className='md:flex-[2_2_0] w-18 max-w-52'>
@@ -91,7 +92,7 @@ const Sidebar = () => {
 						</div>
 						<div className='flex justify-between flex-1'>
 							<div className='hidden md:block'>
-								<p className='text-white font-bold text-sm w-20 truncate'>{data?.fullName}</p>
+								<p className='text-white font-bold text-sm w-20 truncate'>{data?.fullname}</p>
 								<p className='text-slate-500 text-sm'>@{data?.username}</p>
 							</div>
 							<BiLogOut className='w-5 h-5 cursor-pointer' onClick={(e) => {
